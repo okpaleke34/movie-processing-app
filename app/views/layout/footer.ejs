@@ -1,0 +1,29 @@
+</body>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script>    
+    let path = window.location.pathname
+    let active = $(`[href="${path}"]`);
+    active.parent().addClass("active")
+</script>
+<script>
+    $(document).ready(function(e){
+        $("#searchKeyword").keyup(async function(){
+            let keyword = $(this).val();            
+            const res = await fetch(`http://www.omdbapi.com/?apikey=6a5f52da&t=${keyword}`,{
+                "method": 'GET',
+                headers: new Headers({
+                    'Accept':'application/json'
+                })
+            })
+            const results = await res.json()
+            $("#movie-suggestion").html(`<option value="${results.Title}">`)
+        })
+
+        $("#searchForm").submit(function(e){
+            e.preventDefault()
+            let title = $("#searchKeyword").val(); 
+            window.location = "/search/"+title
+        })
+    })
+</script>
+</html>

@@ -1,0 +1,83 @@
+<%- include("layout/header") %> 
+
+
+<div class="container">
+    
+    <% if(movie){ %> 
+        <div class="row">
+            <div class="card mt-5">
+                <img src="<%= movie.poster %>" class="card-img-top" alt="..." >
+                <div class="card-body">
+                <h5 class="card-title"><%= movie.title %></h5>
+                <p class="card-text">
+                    <%= movie.plot %>
+                    <br/>
+                    <ul class="list-group">
+                        <li class="list-group-item">Director: <%= movie.director %></li>
+                        <li class="list-group-item">Writer : <%= movie.writer %></li>
+                        <li class="list-group-item">Box Office: <%= money(movie.boxoffice) %></li>
+                        <span class="readMoreSpan" style="display: none;" id="_<%= movie.imdbid %>">
+                            <li class="list-group-item">Language : <%= movie.language %></li>
+                            <li class="list-group-item">Rated : <%= movie.rated %></li>
+                            <li class="list-group-item">Runtime : <%= movie.runtime %></li>
+                            <li class="list-group-item">Country : <%= movie.country %></li>
+                            <li class="list-group-item"> Released: <%= movie.released %></li>
+                            <li class="list-group-item">IMDB Rating : <%= movie.imdbrating %></li>
+                            <li class="list-group-item">IMDB Votes : <%= movie.imdbvotes %></li>
+                            <li class="list-group-item">IMDB ID : <%= movie.imdbid %></li>
+                            <li class="list-group-item">Actors : <%= movie.actors %></li>
+                            <li class="list-group-item">Year : <%= movie.year %></li>
+                            <li class="list-group-item">Awards : <%= movie.awards %></li>
+                            <li class="list-group-item">Produced by : <%= movie.production %></li>
+                        </span>
+                    </ul>
+                    <br/>
+                    <button class="btn btn-sm btn-info readMoreBtn" data-spanid="_<%= movie.imdbid %>">Load More</button>
+                    <br/><br/>
+                    <h3>Ratings</h3>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Source</th>
+                                <th>Value</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% if(movie.ratings.length){ %>
+                                <% for(rating of movie.ratings){ %> 
+                                    <tr>
+                                        <td><%= rating.source %> </td>
+                                        <td><%= rating.value %></td>
+                                    </tr>
+                                <% } %> 
+                            <% }else{ %> 
+                                <tr>
+                                    <td colspan="2">You have not saved ratings for this movie</td>
+                                </tr>
+                            <% } %> 
+                        </tbody>
+                    </table>
+                </p>
+                </div>
+                <div class="card-footer"></div>
+            </div>
+        </div>
+    <% }else{ %> 
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">You have not saved any movie so far</h5>
+            </div>
+        </div>
+    <% }%> 
+</div>
+
+<%- include("layout/footer") %> 
+<script>
+    $(document).ready(function(){
+        $(".readMoreBtn").click(function(){
+            let spanID = $(this).data("spanid");
+            $("#"+spanID).css("display","block");
+            $(this).hide();
+        })
+    })
+</script>

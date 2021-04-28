@@ -1,0 +1,67 @@
+<%- include("layout/header") %> 
+<div class="container">
+    <% if(movie.Response == "True"){ %> 
+    <div class="card">
+        <img src="<%= movie.Poster %>" class="card-img-top" alt="..." >
+        <div class="card-body">
+          <h5 class="card-title"><%= movie.Title %></h5>
+          <p class="card-text">
+              <%= movie.Plot %>
+              <br/>
+              <ul class="list-group">
+                <li class="list-group-item">Director: <%= movie.Director %></li>
+                <li class="list-group-item">Writer : <%= movie.Writer %></li>
+                <li class="list-group-item">Box Office: <%= movie.BoxOffice %></li>
+                <li class="list-group-item">Language : <%= movie.Language %></li>
+                <li class="list-group-item">Rated : <%= movie.Rated %></li>
+                <li class="list-group-item">Runtime : <%= movie.Runtime %></li>
+                <li class="list-group-item">Country : <%= movie.Country %></li>
+                <li class="list-group-item"> Released: <%= movie.Released %></li>
+                <li class="list-group-item">IMDB Rating : <%= movie.imdbRating %></li>
+                <li class="list-group-item">IMDB Votes : <%= movie.imdbVotes %></li>
+                <li class="list-group-item">IMDB ID : <%= movie.imdbID %></li>
+                <li class="list-group-item">Actors : <%= movie.Actors %></li>
+                <li class="list-group-item">Year : <%= movie.Year %></li>
+                <li class="list-group-item">Awards : <%= movie.Awards %></li>
+                <!-- <li class="list-group-item">Production : <%= movie.Production %></li> -->
+              </ul>
+           </p>
+        </div>
+        <div class="card-footer">
+          <small class="text-muted float-left">Produced by: <%= movie.Production %></small>
+          <span class="float-right">
+            <button class="btn btn-success" id="saveMovie" type="button" data-imdbid="<%= movie.imdbID %>">Save Movie</button>
+          </span>
+        </div>
+      </div>
+    <% }else{ %> 
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title"><%= movie.Error %></h5>
+                <a href="/" class="card-link">Visit Home page</a>
+            </div>
+        </div>
+    <% }%> 
+</div>
+
+<%- include("layout/footer") %> 
+<script>
+$(document).ready(function(){
+    $("#saveMovie").click(async function(){
+        const imdbid = $(this).data("imdbid");    
+        const res = await fetch(`/save-movie`,{
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+              },
+              method: "POST",
+              body: JSON.stringify({imdbid})
+        })
+        const resp = await res.json()
+        alert(resp.msg)  
+        if(!resp.status){     
+            console.log();
+        }
+    })
+})
+</script>
